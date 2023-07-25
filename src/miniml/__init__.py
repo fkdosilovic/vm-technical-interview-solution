@@ -5,4 +5,5 @@ from .classification import LogisticRegressionClassifier
 
 from .datasets import load_mnist
 
-from .nearestneighbors import NaiveNearestNeighbors
+from .base import BaseNearestNeighbors
+from .neighbors import NaiveNearestNeighbors
