@@ -36,7 +36,9 @@ class KNearestNeighborClassifier(BaseClassifier):
         # For each query point get the labels of the k nearest neighbors.
         labels = self.y[indices]
 
-        return np.apply_along_axis(_most_common_label_in_row, axis=1, arr=labels)
+        return np.apply_along_axis(
+            _most_common_label_in_row, axis=1, arr=labels
+        ).astype(np.int64)
 
 
 class LogisticRegressionClassifier(BaseClassifier):
@@ -95,4 +97,44 @@ class LogisticRegressionClassifier(BaseClassifier):
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Return the predicted class for each example."""
         probs = self.predict_proba(X)
-        return np.argmax(probs, axis=1)
+        return np.argmax(probs, axis=1).astype(np.int64)
+
+
+class NadarayaWatsonClassifier(BaseClassifier):
+    def __init__(self, nearest_neighbors: BaseNearestNeighbors):
+        self.nn = nearest_neighbors
+
+        self.X = None
+        self.y = None
+
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+        self.nn.fit(X)
+        self.X = X
+        self.y = y
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        # For each query point get the indices of the k nearest neighbors.
+        indices = self.nn.predict(X)
+
+        neighborhood = self.X[indices]
+        # For each query point get the labels of the k nearest neighbors.
+        labels = self.y[indices]
+        labels_oh = np.eye(len(np.unique(self.y)))[labels]
+
+        # Goal: compute the weighted average of the labels of the k nearest neighbors.
+
+        # First compute the pairwise distances between each query point and its neighbors.
+        distances = np.linalg.norm(X[:, np.newaxis] - neighborhood, ord=2, axis=2)
+
+        # Then compute the weights for each neighbor.
+        weights = np.exp(-0.5 * distances**2)
+
+        # Normalize the weights.
+        weights_norm = weights / np.sum(weights, axis=1, keepdims=True)
+
+        # Finally compute the weighted average of the labels.
+        weights_norm = weights_norm[:, np.newaxis, :]
+        predictions = np.matmul(weights_norm, labels_oh).squeeze()
+
+        # Return the class with the highest score.
+        return np.argmax(predictions, axis=1).astype(np.int64)
