@@ -1,5 +1,8 @@
 import numpy as np
+
 from .base import BaseNearestNeighbors
+
+MAX_DATASET_SIZE: int = 5_000
 
 
 class NaiveNearestNeighbors(BaseNearestNeighbors):
@@ -36,9 +39,20 @@ class NaiveNearestNeighbors(BaseNearestNeighbors):
                 "The number of features in query points must be equal to the number of features in the training set."
             )
 
-        # TODO: Add support for different distance metrics.
         # Compute the distances between the query points and the training set.
-        distances = np.linalg.norm(X_query[:, np.newaxis] - self.X, axis=2)
+        # If the training set is too large, split it into smaller chunks to
+        # avoid running out of memory.
+        if len(self.X) > MAX_DATASET_SIZE:
+            splits = len(self.X) // MAX_DATASET_SIZE
+            distances = np.concatenate(
+                [
+                    np.linalg.norm(X_query[:, np.newaxis] - X_train_sample, axis=2)
+                    for X_train_sample in np.array_split(self.X, splits)
+                ],
+                axis=0,
+            )
+        else:
+            distances = np.linalg.norm(X_query[:, np.newaxis] - self.X, axis=2)
 
         # For each query point get the indices of the k nearest neighbors.
         return np.argsort(distances, axis=1)[:, : self.k]
