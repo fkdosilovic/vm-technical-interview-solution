@@ -49,7 +49,7 @@ class NaiveNearestNeighbors(BaseNearestNeighbors):
                     np.linalg.norm(X_query[:, np.newaxis] - X_train_sample, axis=2)
                     for X_train_sample in np.array_split(self.X, splits)
                 ],
-                axis=0,
+                axis=1,
             )
         else:
             distances = np.linalg.norm(X_query[:, np.newaxis] - self.X, axis=2)
