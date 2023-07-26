@@ -3,7 +3,7 @@
 import numpy as np
 
 from miniml import load_mnist
-from miniml import KNearestNeighborClassifier, NaiveNearestNeighbors
+from miniml import NadarayaWatsonClassifier, NaiveNearestNeighbors
 from miniml import (
     compute_accuracy,
     precision_recall_fscore_support,
@@ -57,7 +57,7 @@ def main(args):
     nn = NaiveNearestNeighbors(k=args.k)
 
     # Create the model.
-    model = KNearestNeighborClassifier(nn)
+    model = NadarayaWatsonClassifier(nn)
     model.fit(X_train, y_train)
 
     # Evaluate the model.

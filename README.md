@@ -2,12 +2,7 @@
 
 ## Results
 
-The following table shows the performance evaluation results on the default MNIST test
-set. The models denoted with (D) are trained with the default hyperparameters, while the
-ones denoted with (O) are trained with the optimized hyperparameters. The hyperparameters
-are optimized using the validation set. The validation set is obtained by splitting the
-training set into two parts, where the validation set is $16.666%$ of the training set.
-You can see the hyperparameters in the table below.
+The following table shows the performance evaluation results on the default MNIST test set. The models denoted with (D) are trained with the default hyperparameters, while the ones denoted with (O) are trained with the optimized hyperparameters. The hyperparameters are optimized using the validation set. The validation set is obtained by splitting the training set into two parts, where the validation set is $16.666%$ of the training set.
 
 **Performance evaluation on MNIST's test split**
 
@@ -15,26 +10,25 @@ You can see the hyperparameters in the table below.
 | :------------------------- | :----------: | :-----------: | :--------: | :------: |
 | **LogisticRegression** (D) |   $0.8563$   |   $0.8546$    |  $0.8544$  | $0.8543$ |
 | **LogisticRegression** (O) |              |               |            |          |
-| **KNN** (D)                |   $0.7631$   |   $0.8223$    |  $0.7577$  | $0.7643$ |
+| **KNN** (D)                |   $0.9477$   |   $0.9489$    |  $0.9470$  | $0.9474$ |
 | **KNN** (O)                |              |               |            |          |
-| **Nadaraya-Watson** (D)    |              |               |            |          |
+| **Nadaraya-Watson** (D)    |   $0.9498$   |   $0.9505$    |  $0.9492$  | $0.9494$ |
 | **Nadaraya-Watson** (O)    |              |               |            |          |
 
-**Hyperparameters**
+**Hyperparameters for the experiments**
 
 Random seed for all experiments and models is set to $42$.
 
 | **Model**                  |                    **Hyperparameters**                    |
 | :------------------------- | :-------------------------------------------------------: |
-| **LogisticRegression** (D) | lr=0.01, wd=0.001, bs=64, epochs=10, vs=0.16666, ns=30000 |
+| **LogisticRegression** (D) | lr=0.05, wd=0.001, bs=64, epochs=10, vs=0.16666, ns=30000 |
 | **LogisticRegression** (O) |                                                           |
 | **KNN** (D)                |                       k=3,ns=10000                        |
 | **KNN** (O)                |                                                           |
-| **Nadaraya-Watson** (D)    |                                                           |
+| **Nadaraya-Watson** (D)    |                       k=3,ns=10000                        |
 | **Nadaraya-Watson** (O)    |                                                           |
 
-The abbreviations in the table above are as follows: `lr` - learning rate, `wd` - weight_decay,
-`bs` - batch size, `vs` - percentage for validation split, `ns` - number of training samples.
+The abbreviations in the table above are as follows: `lr` - learning rate, `wd` - weight_decay, `bs` - batch size, `vs` - percentage for validation split, `ns` - number of training samples.
 
 ## Installation
 
@@ -45,8 +39,7 @@ pip install -r requirements.txt
 pip install .
 ```
 
-The first command installs the necessary dependencies, while the second command installs
-the package build specifically for the project.
+The first command installs the necessary dependencies, while the second command installs the package build specifically for the project.
 
 ## How to run
 
