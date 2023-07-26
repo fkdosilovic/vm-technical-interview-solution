@@ -9,7 +9,7 @@ The following table shows the performance evaluation results on the default MNIS
 | **Model**                  | **Accuracy** | **Precision** | **Recall** |  **F1**  |
 | :------------------------- | :----------: | :-----------: | :--------: | :------: |
 | **LogisticRegression** (D) |   $0.8563$   |   $0.8546$    |  $0.8544$  | $0.8543$ |
-| **LogisticRegression** (O) |              |               |            |          |
+| **LogisticRegression** (O) |   $0.9034$   |   $0.9035$    |  $0.9018$  | $0.9020$ |
 | **KNN** (D)                |   $0.9477$   |   $0.9489$    |  $0.9470$  | $0.9474$ |
 | **KNN** (O)                |              |               |            |          |
 | **Nadaraya-Watson** (D)    |   $0.9498$   |   $0.9505$    |  $0.9492$  | $0.9494$ |
@@ -22,7 +22,7 @@ Random seed for all experiments and models is set to $42$.
 | **Model**                  |                    **Hyperparameters**                    |
 | :------------------------- | :-------------------------------------------------------: |
 | **LogisticRegression** (D) | lr=0.05, wd=0.001, bs=64, epochs=10, vs=0.16666, ns=30000 |
-| **LogisticRegression** (O) |                                                           |
+| **LogisticRegression** (O) |  lr=0.1, wd=0.01, bs=64, epochs=10, vs=0.16666, ns=30000  |
 | **KNN** (D)                |                       k=3,ns=10000                        |
 | **KNN** (O)                |                                                           |
 | **Nadaraya-Watson** (D)    |                       k=3,ns=10000                        |
