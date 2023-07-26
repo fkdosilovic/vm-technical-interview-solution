@@ -46,7 +46,11 @@ Download the MNIST dataset from [here](http://yann.lecun.com/exdb/mnist/) and un
 
 ## How to run
 
-See `scripts` and run the chosen model.
+See `scripts` for the available bash scripts for running the experiments. The scripts are named after the model they are running. For example, to run the optimized Logistic Regression model, run the following command (from the root of the project):
+
+```bash
+bash scripts/train_eval_lr_o.sh
+```
 
 ## Project structure
 
