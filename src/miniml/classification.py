@@ -14,7 +14,7 @@ class KNearestNeighborClassifier(BaseClassifier):
         super().__init__()
         self.nn = nearest_neighbors
 
-    def fit(self, X: np.ndarray, y: np.ndarray, callbacks: dict = None) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         """Train the k-nearest neighbors model.
 
         Training the model consists of fitting the nearest neighbors model to
@@ -28,8 +28,6 @@ class KNearestNeighborClassifier(BaseClassifier):
         y : np.ndarray
             The labels of the input data. The labels must be integers in the
             range [0, n_classes).
-        callbacks : dict, optional
-            Ignored.
 
         Returns
         -------
@@ -94,16 +92,18 @@ class LogisticRegressionClassifier(BaseClassifier):
         weight_decay: float = 0.001,
         batch_size: int = 32,
         n_epochs: int = 50,
+        validation_size: float = 0.2,
     ):
         self.learning_rate = learning_rate
         self.weight_decay = weight_decay
         self.batch_size = batch_size
         self.n_epochs = n_epochs
+        self.validation_size = validation_size
 
         self.W = None
         self.b = None
 
-    def fit(self, X: np.ndarray, y: np.ndarray, callbacks: dict = None) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         """Train the logistic regression model.
 
         The models is trained using a mini-batch gradient descent.
@@ -128,11 +128,34 @@ class LogisticRegressionClassifier(BaseClassifier):
         self.W = np.random.randn(n_classes, X.shape[1])
         self.b = np.random.randn(n_classes)
 
-        Y = np.eye(n_classes)[y]  # Get one-hot encoded labels.
+        # Split the data into training and validation sets.
+        if self.validation_size > 0:
+            indices = np.arange(len(X))
+            np.random.shuffle(indices)
+
+            n_val = int(self.validation_size * len(X))
+            X_val = X[indices[:n_val]]
+            y_val = y[indices[:n_val]]
+            X = X[indices[n_val:]]
+            y = y[indices[n_val:]]
+
+        # Compute the training loss.
+        train_loss = self._compute_loss(X, y)
+        valid_loss = self._compute_loss(X_val, y_val)
+        print(
+            f"Epoch 0/{self.n_epochs} - Training loss: {train_loss:.4f} - Validation loss: {valid_loss:.4f}"
+        )
 
         for epoch in range(self.n_epochs):
+            # Shuffle the data before each epochs.
+            indices = np.arange(len(X))
+            np.random.shuffle(indices)
+
+            X_ = X[indices]
+            Y = np.eye(n_classes)[y[indices]]
+
             for i in range(0, X.shape[0], self.batch_size):
-                X_batch = X[i : i + self.batch_size]
+                X_batch = X_[i : i + self.batch_size]
                 Y_batch = Y[i : i + self.batch_size]
 
                 # Compute the gradients.
@@ -142,10 +165,19 @@ class LogisticRegressionClassifier(BaseClassifier):
                 db = np.mean(G, axis=0)
 
                 # Update the parameters.
-                self.W -= (1 - self.weight_decay * self.learning_rate) * dW
+                self.W -= self.learning_rate * dW
                 self.b -= self.learning_rate * db
 
-            # TODO: Add callbacks for early stopping and logging loss and metrics.
+            # Compute the training and validation loss.
+            train_loss = self._compute_loss(X, y)
+            valid_loss = self._compute_loss(X_val, y_val)
+            print(
+                f"Epoch {epoch + 1}/{self.n_epochs} - Training loss: {train_loss:.4f} - Validation loss: {valid_loss:.4f}"
+            )
+
+    def _compute_loss(self, X: np.ndarray, y: np.ndarray) -> float:
+        probs = self.predict_proba(X)
+        return -np.mean(np.log(probs[np.arange(len(X)), y] + 1e-8))
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         """Return the probabilities of the classes for each example.
@@ -171,7 +203,8 @@ class LogisticRegressionClassifier(BaseClassifier):
         if X.ndim == 1:
             X = X.reshape(1, -1)
 
-        logits = np.matmul(X, self.W.T) + self.b
+        logits = np.matmul(X, self.W.T) + self.b.reshape(1, -1)
+        logits -= np.max(logits, axis=1, keepdims=True)  # For numerical stability.
         return np.exp(logits) / np.sum(np.exp(logits), axis=1, keepdims=True)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -213,7 +246,7 @@ class NadarayaWatsonClassifier(BaseClassifier):
         self.X = None
         self.y = None
 
-    def fit(self, X: np.ndarray, y: np.ndarray, callbacks: dict = None) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         """Train the Nadaraya-Watson classifier.
 
         Training the classifier consists of fitting the nearest neighbors model
@@ -227,8 +260,6 @@ class NadarayaWatsonClassifier(BaseClassifier):
         y : np.ndarray
             The labels of the input data. The labels must be integers in the
             range [0, n_classes).
-        callbacks : dict, optional
-            Ignored.
         """
         self.nn.fit(X)
         self.X = X

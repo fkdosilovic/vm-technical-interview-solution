@@ -6,5 +6,11 @@ from .classification import NadarayaWatsonClassifier
 
 from .datasets import load_mnist
 
+from .evaluation import (
+    compute_accuracy,
+    compute_confusion_matrix,
+    precision_recall_fscore_support,
+)
+
 from .base import BaseNearestNeighbors
 from .neighbors import NaiveNearestNeighbors

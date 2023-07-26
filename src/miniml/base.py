@@ -9,7 +9,7 @@ class BaseClassifier(ABC):
         pass
 
     @abstractmethod
-    def fit(self, X: np.ndarray, y: np.ndarray, callbacks: dict = None) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         pass
 
     @abstractmethod
