@@ -1,5 +1,3 @@
-"""The following script is used to train the logistic regression model and evaluate it on the test set."""
-
 import numpy as np
 
 from miniml import load_mnist
@@ -36,7 +34,7 @@ def predict_batches(model, test_images, batch_size=64):
     return y_pred
 
 
-def hparam_optim_knn(X_train, y_train, X_valid, y_valid, args, **kwargs):
+def hparam_optim_knn(X_train, y_train, X_valid, y_valid, **kwargs):
     best_k = None
     best_acc = 0.0
 
@@ -76,7 +74,7 @@ def main(args):
     X_valid = X_valid.astype(np.float32) / 255
 
     print("Optimizing hyperparameters...")
-    print(hparam_optim_knn(X_train, y_train, X_valid, y_valid, args))
+    print(hparam_optim_knn(X_train, y_train, X_valid, y_valid))
 
 
 if __name__ == "__main__":

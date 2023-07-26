@@ -11,9 +11,9 @@ The following table shows the performance evaluation results on the default MNIS
 | **LogisticRegression** (D) |   $0.8563$   |   $0.8546$    |  $0.8544$  | $0.8543$ |
 | **LogisticRegression** (O) |   $0.9034$   |   $0.9035$    |  $0.9018$  | $0.9020$ |
 | **KNN** (D)                |   $0.9477$   |   $0.9489$    |  $0.9470$  | $0.9474$ |
-| **KNN** (O)                |   $0.9628$   |   $0.9634$    |  $0.9622$  | $0.9625$ |
+| **KNN** (O)                |   $0.9623$   |   $0.9629$    |  $0.9619$  | $0.9621$ |
 | **Nadaraya-Watson** (D)    |   $0.9498$   |   $0.9505$    |  $0.9492$  | $0.9494$ |
-| **Nadaraya-Watson** (O)    |              |               |            |          |
+| **Nadaraya-Watson** (O)    |   $0.9629$   |   $0.9632$    |  $0.9624$  | $0.9627$ |
 
 **Hyperparameters for the experiments**
 
@@ -24,9 +24,9 @@ Random seed for all experiments and models is set to $42$.
 | **LogisticRegression** (D) | lr=0.05, wd=0.001, bs=64, epochs=10, vs=0.16666, ns=30000 |
 | **LogisticRegression** (O) |  lr=0.1, wd=0.01, bs=64, epochs=10, vs=0.16666, ns=30000  |
 | **KNN** (D)                |                       k=3,ns=10000                        |
-| **KNN** (O)                |                       k=3,ns=30000                        |
+| **KNN** (O)                |                       k=5,ns=30000                        |
 | **Nadaraya-Watson** (D)    |                       k=3,ns=10000                        |
-| **Nadaraya-Watson** (O)    |                                                           |
+| **Nadaraya-Watson** (O)    |                       k=10,ns=30000                       |
 
 The abbreviations in the table above are as follows: `lr` - learning rate, `wd` - weight_decay, `bs` - batch size, `vs` - percentage for validation split, `ns` - number of training samples.
 
@@ -41,6 +41,18 @@ pip install .
 
 The first command installs the necessary dependencies, while the second command installs the package build specifically for the project.
 
+Download the MNIST dataset from [here](http://yann.lecun.com/exdb/mnist/) and unzip the data
+`gzip *ubyte.gz -d`. The data will be unzipped in the same directory and use that directory as the `dataset` argument for the scripts.
+
 ## How to run
 
 See `scripts` and run the chosen model.
+
+## Project structure
+
+The project is structured as follows:
+
+- `src/minilm` - a package containing the implementation of the models
+- `experiments` - Python scripts for running the experiments (both train-eval and hyperparameter optimization)
+- `scripts` - bash scripts for running the experiments
+- `notebooks` - Jupyter notebooks containing simple examples of the models

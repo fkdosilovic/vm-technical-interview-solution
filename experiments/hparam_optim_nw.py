@@ -1,7 +1,7 @@
 import numpy as np
 
 from miniml import load_mnist
-from miniml import LogisticRegressionClassifier
+from miniml import NadarayaWatsonClassifier, NaiveNearestNeighbors
 from miniml import compute_accuracy
 
 from tqdm import tqdm
@@ -15,15 +15,13 @@ def parse_args():
     )
     parser.add_argument("--dataset", type=str, help="Path to the MNIST dataset.")
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--n-epochs", type=int, default=100)
-    parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--validation-size", type=float, default=0.2)
     parser.add_argument("--n-samples", type=int, default=30000)
 
     return parser.parse_args()
 
 
-def predict_batches(model, test_images, batch_size=256):
+def predict_batches(model, test_images, batch_size=64):
     n_batches = test_images.shape[0] // batch_size
     if test_images.shape[0] % batch_size != 0:
         n_batches += 1
@@ -36,34 +34,25 @@ def predict_batches(model, test_images, batch_size=256):
     return y_pred
 
 
-def hparam_optim_lr(X_train, y_train, X_valid, y_valid, args, **kwargs):
-    best_lr, best_wd = None, None
+def hparam_optim_nw(X_train, y_train, X_valid, y_valid, **kwargs):
+    best_k = None
     best_acc = 0.0
 
-    for lr in kwargs.get("lr", [0.001, 0.005, 0.01, 0.05, 0.1]):
-        for wd in kwargs.get(
-            "weight_decay", [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 0.25]
-        ):
-            # Create the model.
-            model = LogisticRegressionClassifier(
-                learning_rate=lr,
-                weight_decay=wd,
-                n_epochs=args.n_epochs,
-                batch_size=args.batch_size,
-                validation_size=args.validation_size,
-            )
-            model.fit(X_train, y_train)
+    for k in kwargs.get("k", [3, 5, 10, 25, 50, 100]):
+        # Create the model.
+        nn = NaiveNearestNeighbors(k=k)
+        model = NadarayaWatsonClassifier(nn)
+        model.fit(X_train, y_train)
 
-            y_pred = predict_batches(model, X_valid)
-            accuracy = compute_accuracy(y_valid, y_pred)
-            print(f"lr={lr}, wd={wd}, accuracy={accuracy:.4f}")
+        y_pred = predict_batches(model, X_valid)
+        accuracy = compute_accuracy(y_valid, y_pred)
+        print(f"k={k}, accuracy={accuracy:.4f}")
 
-            if accuracy > best_acc:
-                best_acc = accuracy
-                best_lr = lr
-                best_wd = wd
+        if accuracy > best_acc:
+            best_acc = accuracy
+            best_k = k
 
-    return {"lr": best_lr, "weight_decay": best_wd, "accuracy": best_acc}
+    return {"k": best_k, "accuracy": best_acc}
 
 
 def main(args):
@@ -85,7 +74,7 @@ def main(args):
     X_valid = X_valid.astype(np.float32) / 255
 
     print("Optimizing hyperparameters...")
-    print(hparam_optim_lr(X_train, y_train, X_valid, y_valid, args))
+    print(hparam_optim_nw(X_train, y_train, X_valid, y_valid))
 
 
 if __name__ == "__main__":
