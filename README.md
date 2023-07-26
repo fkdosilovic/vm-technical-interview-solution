@@ -32,14 +32,13 @@ The abbreviations in the table above are as follows: `lr` - learning rate, `wd` 
 
 ## Installation
 
-Position your terminal to the root of the project and run the following commands:
+Position your terminal to the root of the project and run the following command:
 
 ```bash
-pip install -r requirements.txt
 pip install .
 ```
 
-The first command installs the necessary dependencies, while the second command installs the package build specifically for the project.
+The command will install the package in the current environment as well as all the dependencies.
 
 Download the MNIST dataset from [here](http://yann.lecun.com/exdb/mnist/) and unzip the data
 `gzip *ubyte.gz -d`. The data will be unzipped in the same directory and use that directory as the `dataset` argument for the scripts.
