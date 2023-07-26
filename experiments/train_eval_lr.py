@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument("--n-epochs", type=int, default=100)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--validation-size", type=float, default=0.2)
-    parser.add_argument("--n-samples", type=int, default=10000)
+    parser.add_argument("--n-samples", type=int, default=30000)
 
     return parser.parse_args()
 

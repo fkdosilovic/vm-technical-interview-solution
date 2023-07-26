@@ -2,32 +2,32 @@
 
 ## Results
 
-| **Model**                  | **Accuracy** | **Precision** | **Recall** | **F1** |
-| :------------------------- | :----------: | :-----------: | :--------: | :----: |
-| **LogisticRegression** (D) |              |               |            |        |
-| **LogisticRegression** (O) |              |               |            |        |
-| **KNN** (D)                |              |               |            |        |
-| **KNN** (O)                |              |               |            |        |
-| **Nadaraya-Watson** (D)    |              |               |            |        |
-| **Nadaraya-Watson** (O)    |              |               |            |        |
+| **Model**                  | **Accuracy** | **Precision** | **Recall** |  **F1**  |
+| :------------------------- | :----------: | :-----------: | :--------: | :------: |
+| **LogisticRegression** (D) |   $0.8844$   |   $0.8915$    |  $0.8828$  | $0.8829$ |
+| **LogisticRegression** (O) |              |               |            |          |
+| **KNN** (D)                |              |               |            |          |
+| **KNN** (O)                |              |               |            |          |
+| **Nadaraya-Watson** (D)    |              |               |            |          |
+| **Nadaraya-Watson** (O)    |              |               |            |          |
 
-Hyperparameters:
+- **D**: Default hyperparameters
+- **O**: Optimized hyperparameters
 
-| **Model**                  | **Hyperparameters** |
-| :------------------------- | :-----------------: |
-| **LogisticRegression** (D) |                     |
-| **LogisticRegression** (O) |                     |
-| **KNN** (D)                |                     |
-| **KNN** (O)                |                     |
-| **Nadaraya-Watson** (D)    |                     |
-| **Nadaraya-Watson** (O)    |                     |
+**Hyperparameters**:
 
-## ToDo
+| **Model**                  |                         **Hyperparameters**                         |
+| :------------------------- | :-----------------------------------------------------------------: |
+| **LogisticRegression** (D) | lr=$0.01$, wd=$0.001$, bs=$64$, epochs=$10$, vs=0.16666, ns=$30000$ |
+| **LogisticRegression** (O) |                                                                     |
+| **KNN** (D)                |                                                                     |
+| **KNN** (O)                |                                                                     |
+| **Nadaraya-Watson** (D)    |                                                                     |
+| **Nadaraya-Watson** (O)    |                                                                     |
 
-- [x] Implement basic knn clasifier with naive nearest neighbors
-- [x] Implement basic evaluation metrics (accuracy, precision, recall, f1)
-- [x] Implement logistic regression classifier
-- [x] Implement Nadaraya-Watson classifier
-- [ ] Train logistic regression and knn on MNIST dataset
-- [ ] Optimize hyperparameters for logistic regression
-- [ ] Optimize hyperparameters for knn
+- **D**: Default hyperparameters
+- **O**: Optimized hyperparameters
+
+## How to run
+
+See `scripts` and run the chosen model.
