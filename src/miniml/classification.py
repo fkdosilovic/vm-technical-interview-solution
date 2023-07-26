@@ -165,7 +165,9 @@ class LogisticRegressionClassifier(BaseClassifier):
                 db = np.mean(G, axis=0)
 
                 # Update the parameters.
-                self.W -= self.learning_rate * dW
+                self.W = (
+                    1 - self.learning_rate * self.weight_decay
+                ) * self.W - self.learning_rate * dW
                 self.b -= self.learning_rate * db
 
             # Compute the training and validation loss.
