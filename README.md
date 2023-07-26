@@ -6,19 +6,21 @@ The following table shows the performance evaluation results on the default MNIS
 set. The models denoted with (D) are trained with the default hyperparameters, while the
 ones denoted with (O) are trained with the optimized hyperparameters. The hyperparameters
 are optimized using the validation set. The validation set is obtained by splitting the
-training set into two parts, where the validation set is 16.666% of the training set.
+training set into two parts, where the validation set is $16.666%$ of the training set.
 You can see the hyperparameters in the table below.
+
+**Performance evaluation on MNIST's test split**
 
 | **Model**                  | **Accuracy** | **Precision** | **Recall** |  **F1**  |
 | :------------------------- | :----------: | :-----------: | :--------: | :------: |
-| **LogisticRegression** (D) |   $0.8844$   |   $0.8915$    |  $0.8828$  | $0.8829$ |
+| **LogisticRegression** (D) |   $0.8563$   |   $0.8546$    |  $0.8544$  | $0.8543$ |
 | **LogisticRegression** (O) |              |               |            |          |
 | **KNN** (D)                |   $0.7631$   |   $0.8223$    |  $0.7577$  | $0.7643$ |
 | **KNN** (O)                |              |               |            |          |
 | **Nadaraya-Watson** (D)    |              |               |            |          |
 | **Nadaraya-Watson** (O)    |              |               |            |          |
 
-**Hyperparameters**:
+**Hyperparameters**
 
 Random seed for all experiments and models is set to $42$.
 
@@ -30,6 +32,9 @@ Random seed for all experiments and models is set to $42$.
 | **KNN** (O)                |                                                           |
 | **Nadaraya-Watson** (D)    |                                                           |
 | **Nadaraya-Watson** (O)    |                                                           |
+
+The abbreviations in the table above are as follows: `lr` - learning rate, `wd` - weight_decay,
+`bs` - batch size, `vs` - percentage for validation split, `ns` - number of training samples.
 
 ## Installation
 

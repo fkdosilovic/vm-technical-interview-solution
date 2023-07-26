@@ -54,6 +54,10 @@ def main(args):
     X_train = X_train[indices]
     y_train = y_train[indices]
 
+    # Normalize the data.
+    X_train = X_train.astype(np.float32) / 255
+    X_test = X_test.astype(np.float32) / 255
+
     # Create the model.
     model = LogisticRegressionClassifier(
         learning_rate=args.lr,
