@@ -31,6 +31,18 @@ Random seed for all experiments and models is set to $42$.
 | **Nadaraya-Watson** (D)    |                                                           |
 | **Nadaraya-Watson** (O)    |                                                           |
 
+## Installation
+
+Position your terminal to the root of the project and run the following commands:
+
+```bash
+pip install -r requirements.txt
+pip install .
+```
+
+The first command installs the necessary dependencies, while the second command installs
+the package build specifically for the project.
+
 ## How to run
 
 See `scripts` and run the chosen model.
