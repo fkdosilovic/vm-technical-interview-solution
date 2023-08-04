@@ -60,17 +60,10 @@ def precision_recall_fscore_support(y_true: np.ndarray, y_pred: np.ndarray) -> t
 
     cm = compute_confusion_matrix(y_true, y_pred)
 
-    # Compute the precision, recall, f-score and support for each class.
-    precision = np.zeros(len(cm))
-    recall = np.zeros(len(cm))
-    fscore = np.zeros(len(cm))
-    support = np.zeros(len(cm))
-
-    for i in range(len(cm)):
-        precision[i] = cm[i, i] / np.sum(cm[:, i])
-        recall[i] = cm[i, i] / np.sum(cm[i, :])
-        fscore[i] = 2 * precision[i] * recall[i] / (precision[i] + recall[i])
-        support[i] = np.sum(cm[i, :])
+    precision = np.diag(cm) / np.sum(cm, axis=0)
+    recall = np.diag(cm) / np.sum(cm, axis=1)
+    fscore = (2 * precision * recall) / (precision + recall)
+    support = np.sum(cm, axis=1)
 
     return precision, recall, fscore, support
 

@@ -55,7 +55,7 @@ bash scripts/train_eval_lr_o.sh
 
 The project is structured as follows:
 
-- `src/minilm` - a package containing the implementation of the models
+- `src/miniml` - a package containing the implementation of the models
 - `experiments` - Python scripts for running the experiments (both train-eval and hyperparameter optimization)
 - `scripts` - bash scripts for running the experiments
 - `notebooks` - Jupyter notebooks containing simple examples of the models
